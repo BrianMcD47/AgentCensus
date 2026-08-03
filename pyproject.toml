@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentcensus"
+version = "0.1.0"
+description = "Read-only, self-run inventory scanner for AI agents, tools, and credentials, across ServiceNow, Splunk, and Anthropic's own Admin API. Finds what already exists before you try to govern it."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Alex McDonald" }]
+keywords = ["ai-governance", "security-scanner", "servicenow", "splunk", "anthropic", "agent-inventory", "read-only"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security",
+]
+dependencies = [
+    "requests>=2.31",
+    "networkx>=3.2",
+    "pyyaml>=6.0",
+    # jinja2 intentionally NOT listed here despite being used by nothing
+    # in src/ yet: core/report.py's render_html is a phase-2 stub
+    # (raises NotImplementedError) with no template to render. Add it
+    # back when that ships — an unused dependency in the meantime is
+    # exactly the kind of thing this project's own "nothing unnecessary"
+    # standard exists to catch.
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.5"]
+
+[project.scripts]
+agentcensus = "agentcensus.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"agentcensus.connectors.servicenow" = ["*.yaml"]

@@ -1,0 +1,166 @@
+# Known LLM / agent-platform API hosts and script-source keywords.
+#
+# Used by shadow.py to find agentic integrations that were hand-built
+# directly on the platform (Script Include + Scripted REST API + Business
+# Rule calling out to an LLM) and therefore never show up in any native
+# "AI agent" table — see the provenance/confidence design note in
+# core/models.py.
+#
+# This list WILL go stale — new providers ship, hostnames change, and
+# every customer with a self-hosted or internal LLM gateway needs to add
+# their own entry, which is exactly why this lives in an editable config
+# file instead of hardcoded in connector.py. Add your internal gateway
+# hostname under `hosts` for the closest matching provider, or add a new
+# provider block if none fit.
+#
+# `hosts`: exact or suffix-matched hostnames found in sys_rest_message
+#          endpoints, OAuth entity URLs, or Connection & Credential
+#          alias definitions. Tier 1/2 signals — CONFIRMED confidence.
+# `keywords`: case-insensitive substrings searched for in Script Include,
+#          Business Rule, and Scheduled Job script bodies when no formal
+#          REST message record exists. Tier 4 signal — NEEDS_REVIEW
+#          confidence, always, since a keyword hit alone proves nothing
+#          structural.
+
+providers:
+  - id: anthropic
+    label: Anthropic
+    hosts:
+      - api.anthropic.com
+    keywords:
+      - anthropic
+      - "claude-"
+
+  - id: openai
+    label: OpenAI
+    hosts:
+      - api.openai.com
+    keywords:
+      - openai
+      - "gpt-4"
+      - "gpt-5"
+
+  - id: azure_openai
+    label: Azure OpenAI
+    hosts:
+      - openai.azure.com
+    keywords:
+      - azure openai
+      - azure_openai
+
+  - id: google_gemini
+    label: Google Gemini
+    hosts:
+      - generativelanguage.googleapis.com
+      - aiplatform.googleapis.com
+    keywords:
+      - gemini
+      - vertexai
+
+  - id: aws_bedrock
+    label: AWS Bedrock
+    hosts:
+      - bedrock-runtime
+      - bedrock.amazonaws.com
+    keywords:
+      - bedrock
+
+  - id: cohere
+    label: Cohere
+    hosts:
+      - api.cohere.ai
+      - api.cohere.com
+    keywords:
+      - cohere
+
+  - id: mistral
+    label: Mistral
+    hosts:
+      - api.mistral.ai
+    keywords:
+      - mistral
+
+  - id: deepseek
+    label: DeepSeek
+    hosts:
+      - api.deepseek.com
+    keywords:
+      - deepseek
+
+  - id: xai
+    label: xAI (Grok)
+    hosts:
+      - api.x.ai
+    keywords:
+      - "api.x.ai"
+      - "grok-"
+
+  - id: groq
+    label: Groq
+    hosts:
+      - api.groq.com
+    keywords:
+      - groq
+
+  - id: together
+    label: Together AI
+    hosts:
+      - api.together.xyz
+      - api.together.ai
+    keywords:
+      - together.ai
+      - togethercomputer
+
+  - id: perplexity
+    label: Perplexity
+    hosts:
+      - api.perplexity.ai
+    keywords:
+      - perplexity
+
+  - id: openrouter
+    label: OpenRouter
+    hosts:
+      - openrouter.ai
+    keywords:
+      - openrouter
+
+  - id: huggingface
+    label: Hugging Face
+    hosts:
+      - api-inference.huggingface.co
+      - huggingface.co
+    keywords:
+      - huggingface
+
+  # Self-hosted / internal gateways. These matter MORE than the big
+  # names for the customers this tool targets: an enterprise that has
+  # already thought about AI governance is running an internal gateway,
+  # and that gateway has no public hostname anyone could ship a default
+  # for. The hostnames below are the conventional local-dev defaults;
+  # the keywords are what actually earns its keep, since a script
+  # referencing `litellm` or `ollama` is a strong signal regardless of
+  # what host it points at. Add your real gateway hostname via
+  # --llm-providers-extra to upgrade these from keyword hits to
+  # structural host matches.
+  - id: self_hosted_gateway
+    label: Self-hosted / internal LLM gateway
+    hosts:
+      - "localhost:11434"     # Ollama default
+      # vLLM default
+      # LiteLLM proxy default
+    keywords:
+      - ollama
+      - litellm
+      - vllm
+      - text-generation-webui
+      - localai
+
+  - id: mcp_generic
+    label: Model Context Protocol (generic)
+    hosts: []
+    keywords:
+      - modelcontextprotocol
+      - "mcp server"
+      - mcp_shared_secret
+      - "/mcp"

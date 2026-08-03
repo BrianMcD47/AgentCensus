@@ -1,0 +1,29 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+*.env
+.env
+out/
+*.agentcensus.json
+*.agentcensus.html
+
+# Scan output. A report is an inventory of every ungoverned integration on an
+# instance, its owner, and its blast radius — i.e. a map of where to attack.
+# One was committed to this repo containing real usernames and service-account
+# names from a live instance, and survived until a reviewer looked for it.
+#
+# The patterns below cover the CLI's own default --output value and the
+# filenames used in README's quick start, which is where an accidental commit
+# is most likely to come from.
+report.json
+report.html
+agentcensus-report.*
+live-*.json
+live-*.html
+*.html
