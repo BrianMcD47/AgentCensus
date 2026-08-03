@@ -36,7 +36,8 @@ going forward. Nobody sells the step that has to happen first: finding
 out what already exists. You cannot govern an inventory you do not
 have.
 
-![AgentCensus scan findings](images/report-findings.png)
+![AgentCensus scan findings](images/Screenshot%202026-08-03%20at%2010.53.05%20AM.png)
+![AgentCensus CLI scan output](images/Screenshot%202026-08-03%20at%2010.54.13%20AM.png)
 
 ## Guarantees
 
