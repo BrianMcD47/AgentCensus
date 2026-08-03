@@ -36,6 +36,8 @@ going forward. Nobody sells the step that has to happen first: finding
 out what already exists. You cannot govern an inventory you do not
 have.
 
+![AgentCensus scan findings](images/report-findings.png)
+
 ## Guarantees
 
 - **Read-only, enforced in code.** The connector interface exposes
